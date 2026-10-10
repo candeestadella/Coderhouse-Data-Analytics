@@ -51,11 +51,8 @@ GROUP BY id_cliente
 HAVING COUNT(*) > 1
 ORDER BY Total_Gastado DESC;
 
-
 -- =============================================
 -- CONSULTA 4: FACTURACION MENSUAL VS. PROMEDIO
--- Compara el total de cada mes con el promedio
--- de facturacion mensual general.
 -- =============================================
 
 WITH FacturacionMensual AS (
@@ -70,13 +67,9 @@ SELECT
     Total_Facturado,
     AVG(Total_Facturado) OVER () AS Promedio_Mensual,
     CASE
-        WHEN Total_Facturado >
-             AVG(Total_Facturado) OVER ()
+        WHEN Total_Facturado >= AVG(Total_Facturado) OVER ()
             THEN 'Por encima'
-        WHEN Total_Facturado <
-             AVG(Total_Facturado) OVER ()
-            THEN 'Por debajo'
-        ELSE 'Igual al promedio'
+        ELSE 'Por debajo'
     END AS Comparacion_Promedio
 FROM FacturacionMensual
 ORDER BY Mes;
